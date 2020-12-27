@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <h1 class="text-center">HTML Calculator</h1>
+
+    <div class="container-fluid mt-5" id="calc-body">
+        
+        <div class="row">
+            <div class="col-12 text-right" style="border-top-left-radius: 5px; border-top-right-radius: 5px;" id="calc-display">0</div>
+
+        </div>
+        <div class="row">
+            <div class="col-9 calc-btn" style="border-bottom: thin solid white;" id="calc-clear">C</div>
+            <div class="col-3 calc-btn calc-operator text-center" id="calc-divide">÷</div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;" id="calc-seven">7</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;"  id="calc-eight">8</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white;" id="calc-nine">9</div>
+            <div class="col-3 calc-btn calc-operator" id="calc-multiply">X</div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;" id="calc-four">4</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;" id="calc-five">5</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white;" id="calc-six">6</div>
+            <div class="col-3 calc-btn calc-operator" id="calc-minus">-</div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;" id="calc-one">1</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white; border-right: thin solid white;" id="calc-two">2</div>
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom: thin solid white;" id="calc-three">3</div>
+            <div class="col-3 calc-btn calc-operator" id="calc-plus">+</div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-3 calc-btn cal-btn-num" style="border-bottom-left-radius: 5px; border-right: thin solid white;" id="calc-zero">0</div>
+            <div class="col-3 calc-btn" id="calc-decimal" style="border-right: thin solid white;">.</div>
+            <div class="col-3 calc-btn" id="calc-backspace">del</div>
+            <div class="col-3 calc-btn calc-operator" style="border-bottom-right-radius: 5px;" id="calc-equal">=</div>
+
+        </div>
+
+    </div>
+    
+    <script>
+        var OneBtn = document.getElementById('calc-one');
+        var TwoBtn = document.getElementById('calc-two');
+        var ThreeBtn = document.getElementById('calc-three');
+        var FourBtn = document.getElementById('calc-four');
+        var FiveBtn = document.getElementById('calc-five');
+        var SixBtn = document.getElementById('calc-six');
+        var SevenBtn = document.getElementById('calc-seven');
+        var EightBtn = document.getElementById('calc-eight');
+        var NineBtn = document.getElementById('calc-nine');
+        var ZeroBtn = document.getElementById('calc-zero');
+
+        var DisplayElement = document.getElementById('calc-display');
+        var ClearBtn = document.getElementById('calc-clear');
+        var BackspaceBtn = document.getElementById('calc-backspace');
+        var DecimalBtn = document.getElementById('calc-decimal');
+
+        var BtnOperator = document.getElementsByClassName('calc-operator');
+        var BtnNum = document.getElementsByClassName('cal-btn-num');
+
+        var displayVal = '0';
+        var pendingVal;
+        var evalStringArray = [];
+
+        var UpdateDisplay = (Obj) => {
+            var BtnText =  Obj.target.innerText;
+
+            if(displayVal === '0')
+                displayVal = '';
+
+            displayVal += BtnText;
+            DisplayElement.innerText = displayVal;
+
+        }
+
+        var AddOperator = (Obj) => {
+            var operator = Obj.target.innerText;
+
+            switch (operator) {
+                case '+':
+                    pendingVal = displayVal;
+                    displayVal = '0';
+                    DisplayElement.innerText = displayVal;
+                    evalStringArray.push(pendingVal);
+                    evalStringArray.push('+');
+                    break;
+
+                case '-':
+                    pendingVal = displayVal;
+                    displayVal = '0';
+                    DisplayElement.innerText = displayVal;
+                    evalStringArray.push(pendingVal);
+                    evalStringArray.push('-');
+                    break;
+                    
+                case 'X':
+                    pendingVal = displayVal;
+                    displayVal = '0';
+                    DisplayElement.innerText = displayVal;
+                    evalStringArray.push(pendingVal);
+                    evalStringArray.push('*');
+                    break;
+
+                case '÷':
+                    pendingVal = displayVal;
+                    displayVal = '0';
+                    DisplayElement.innerText = displayVal;
+                    evalStringArray.push(pendingVal);
+                    evalStringArray.push('/');
+                    break;
+                
+                case '=':
+                    evalStringArray.push(displayVal);
+                    var evaluation = eval(evalStringArray.join(' '));
+                    displayVal = evaluation + '';
+                    DisplayElement.innerText = displayVal;
+                    evalStringArray = [];
+                    break
+                default:
+                    break;
+            }
+        }
+
+        for (let i = 0; i < BtnNum.length; i++) {
+            BtnNum[i].addEventListener('click', UpdateDisplay, false);
+        }
+
+        for (let i = 0; i < BtnOperator.length; i++) {
+            BtnOperator[i].addEventListener('click', AddOperator, false);
+        }
+
+        ClearBtn.onclick = () => {
+            displayVal = '0';
+            pendingVal = undefined;
+            evalStringArray = [];
+            DisplayElement.innerText = displayVal
+        }
+
+        BackspaceBtn.onclick = () => {
+            let lengthofDisplay = displayVal.length;
+            displayVal = displayVal.slice(0, lengthofDisplay - 1);
+            DisplayElement.innerText = displayVal;
+
+            if (displayVal === '') {
+                displayVal = '0';
+
+            DisplayElement.innerText = displayVal;
+
+            }
+        }
+
+        DecimalBtn.onclick = () => {
+            if (!displayVal.includes('.')) 
+                displayVal += '.';
+
+            DisplayElement.innerText = displayVal; 
+        }
+        
+
+    </script>
+
+</body>
+</html>

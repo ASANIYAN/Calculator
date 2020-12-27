@@ -1,0 +1,37 @@
+body {
+ color: white;
+ background: rgb(0, 0, 0, 0.9);
+}
+
+#calc-display{
+    background: white;
+    color: rgb(0, 0, 0);
+}
+
+.row {
+    width: 300px;
+    height: 80px;
+}
+
+div {
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.calc-btn {
+    background: rgb(0, 0, 0);
+}
+
+.calc-operator {
+    background: rgb(0, 127, 255);
+    text-align: center;
+}
+
+#calc-equal {
+    background: rgb(255, 215, 0);
+    text-align: center;
+}
+
+#calc-body {
+    margin-left: calc(50% - 150px);
+}
